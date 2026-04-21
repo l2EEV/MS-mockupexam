@@ -1,0 +1,126 @@
+[debug] [2026-04-19T07:21:26.314Z] ----------------------------------------------------------------------
+[debug] [2026-04-19T07:21:26.316Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2026-04-19T07:21:26.316Z] CLI Version:   15.15.0
+[debug] [2026-04-19T07:21:26.316Z] Platform:      win32
+[debug] [2026-04-19T07:21:26.316Z] Node Version:  v22.16.0
+[debug] [2026-04-19T07:21:26.316Z] Time:          Sun Apr 19 2026 14:21:26 GMT+0700 (เวลาอินโดจีน)
+[debug] [2026-04-19T07:21:26.316Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\MARU-2502025\Documents\Claude KN\outputs\Magniselect html
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project. 
+[debug] [2026-04-19T07:22:15.987Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-19T07:22:15.987Z] > authorizing via signed-in user (kawin.nny@gmail.com)
+[debug] [2026-04-19T07:22:44.355Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:22:44.355Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:22:44.356Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1/projects:checkProjectId [none]
+[debug] [2026-04-19T07:22:44.356Z] >>> [apiv2][body] POST https://firebase.googleapis.com/v1/projects:checkProjectId {"proposedId":"magnislect"}
+[debug] [2026-04-19T07:22:44.771Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1/projects:checkProjectId 200
+[debug] [2026-04-19T07:22:44.771Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1/projects:checkProjectId {"projectIdStatus":"PROJECT_ID_AVAILABLE","suggestedProjectId":"magnislect"}
+[debug] [2026-04-19T07:23:53.548Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:53.548Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:53.548Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-04-19T07:23:53.548Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"magnislect","name":"magnislect"}
+[debug] [2026-04-19T07:23:55.008Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 200
+[debug] [2026-04-19T07:23:55.008Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"name":"operations/create_project.global.8492849889256627664"}
+[debug] [2026-04-19T07:23:55.009Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:55.009Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:55.009Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 [none]
+[debug] [2026-04-19T07:23:56.178Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 200
+[debug] [2026-04-19T07:23:56.178Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 {"name":"operations/create_project.global.8492849889256627664"}
+[debug] [2026-04-19T07:23:56.683Z] [Project Creation Poller] Retrying task index 0
+[debug] [2026-04-19T07:23:56.684Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:56.684Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:56.684Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 [none]
+[debug] [2026-04-19T07:23:56.964Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 200
+[debug] [2026-04-19T07:23:56.965Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8492849889256627664 {"name":"operations/create_project.global.8492849889256627664","metadata":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.ProjectCreationStatus","gettable":true,"ready":true},"done":true,"response":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.Project","projectNumber":"881538298745","projectId":"magnislect","lifecycleState":"ACTIVE","name":"magnislect","createTime":"2026-04-19T07:23:56.494Z"}}
+[debug] [2026-04-19T07:23:56.966Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:56.966Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:23:56.966Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/magnislect:addFirebase [none]
+[debug] [2026-04-19T07:23:58.191Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/magnislect:addFirebase 403
+[debug] [2026-04-19T07:23:58.191Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/magnislect:addFirebase {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-04-19T07:23:58.192Z] Request to https://firebase.googleapis.com/v1beta1/projects/magnislect:addFirebase had HTTP Error: 403, The caller does not have permission
+[debug] [2026-04-19T07:23:58.302Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/magnislect:addFirebase had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to add Firebase to Google Cloud Platform project. See firebase-debug.log for more info.
+[debug] [2026-04-19T07:24:50.148Z] ----------------------------------------------------------------------
+[debug] [2026-04-19T07:24:50.150Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2026-04-19T07:24:50.150Z] CLI Version:   15.15.0
+[debug] [2026-04-19T07:24:50.150Z] Platform:      win32
+[debug] [2026-04-19T07:24:50.150Z] Node Version:  v22.16.0
+[debug] [2026-04-19T07:24:50.150Z] Time:          Sun Apr 19 2026 14:24:50 GMT+0700 (เวลาอินโดจีน)
+[debug] [2026-04-19T07:24:50.150Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\MARU-2502025\Documents\Claude KN\outputs\Magniselect html
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project. 
+[debug] [2026-04-19T07:25:10.306Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-19T07:25:10.306Z] > authorizing via signed-in user (kawin.nny@gmail.com)
+[debug] [2026-04-19T07:25:47.658Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:47.658Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:47.659Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1/projects:checkProjectId [none]
+[debug] [2026-04-19T07:25:47.659Z] >>> [apiv2][body] POST https://firebase.googleapis.com/v1/projects:checkProjectId {"proposedId":"magniselect-exam"}
+[debug] [2026-04-19T07:25:48.093Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1/projects:checkProjectId 200
+[debug] [2026-04-19T07:25:48.093Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1/projects:checkProjectId {"projectIdStatus":"PROJECT_ID_AVAILABLE","suggestedProjectId":"magniselect-exam"}
+[debug] [2026-04-19T07:25:49.749Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:49.749Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:49.749Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-04-19T07:25:49.749Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"magniselect-exam","name":"magniselect-exam"}
+[debug] [2026-04-19T07:25:51.188Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 200
+[debug] [2026-04-19T07:25:51.188Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"name":"operations/create_project.global.7948715827887348765"}
+[debug] [2026-04-19T07:25:51.189Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:51.189Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:51.189Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 [none]
+[debug] [2026-04-19T07:25:52.338Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 200
+[debug] [2026-04-19T07:25:52.338Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 {"name":"operations/create_project.global.7948715827887348765"}
+[debug] [2026-04-19T07:25:52.849Z] [Project Creation Poller] Retrying task index 0
+[debug] [2026-04-19T07:25:52.850Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:52.850Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:52.850Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 [none]
+[debug] [2026-04-19T07:25:53.114Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 200
+[debug] [2026-04-19T07:25:53.114Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.7948715827887348765 {"name":"operations/create_project.global.7948715827887348765","metadata":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.ProjectCreationStatus","gettable":true,"ready":true},"done":true,"response":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.Project","projectNumber":"1068220711024","projectId":"magniselect-exam","lifecycleState":"ACTIVE","name":"magniselect-exam","createTime":"2026-04-19T07:25:52.668Z"}}
+[debug] [2026-04-19T07:25:53.116Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:53.116Z] Checked if tokens are valid: true, expires at: 1776586459080
+[debug] [2026-04-19T07:25:53.116Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/magniselect-exam:addFirebase [none]
+[debug] [2026-04-19T07:25:54.494Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/magniselect-exam:addFirebase 403
+[debug] [2026-04-19T07:25:54.494Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/magniselect-exam:addFirebase {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-04-19T07:25:54.494Z] Request to https://firebase.googleapis.com/v1beta1/projects/magniselect-exam:addFirebase had HTTP Error: 403, The caller does not have permission
+[debug] [2026-04-19T07:25:54.607Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/magniselect-exam:addFirebase had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\MARU-2502025\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to add Firebase to Google Cloud Platform project. See firebase-debug.log for more info.

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnislect - ฝึกสอบ IC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root {
+  --bg:#0f1117; --bg2:#161b27; --bg3:#1e2535;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#e8eaf0; --text2:#8b90a0; --text3:#555c70;
+  --accent:#4f9eff; --accent2:#2d7de8;
+  --green:#34d399; --green-bg:rgba(52,211,153,0.1); --green-bd:rgba(52,211,153,0.3);
+  --red:#f87171; --red-bg:rgba(248,113,113,0.1); --red-bd:rgba(248,113,113,0.3);
+  --yellow:#fbbf24; --yellow-bg:rgba(251,191,36,0.08); --yellow-bd:rgba(251,191,36,0.2);
+  --purple:#a78bfa;
+  --sel-bg:rgba(79,158,255,0.12); --sel-bd:#4f9eff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.75;min-height:100vh}
+
+/* LOGIN SCREEN */
+.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:9999}
+.login-screen.active{display:flex}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:40px;max-width:500px;width:100%;margin:20px}
+.login-logo{text-align:center;margin-bottom:30px}
+.login-logo h1{font-size:36px;color:var(--accent);margin-bottom:10px;font-weight:600}
+.login-logo p{color:var(--text2);font-size:14px;line-height:1.6}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;margin-bottom:8px;color:var(--text);font-weight:500;font-size:14px}
+.form-group input{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:14px;font-family:'IBM Plex Sans Thai',sans-serif}
+.form-group input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,158,255,0.1)}
+.btn{width:100%;padding:12px 20px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;transition:all .2s}
+.btn-primary{background:var(--accent2);color:#fff}
+.btn-primary:hover{background:#1a6cd4;transform:translateY(-1px)}
+.btn-secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border);margin-top:10px}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.message{padding:12px;border-radius:8px;margin-bottom:20px;font-size:13px;display:none}
+.message.show{display:block}
+.message.success{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+.message.error{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
+.message.info{background:rgba(79,158,255,0.1);color:var(--accent);border:1px solid rgba(79,158,255,0.2)}
+.hidden{display:none}
+
+/* HEADER */
+.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.hdr-l{display:flex;align-items:center;gap:12px}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--accent2);color:#fff;padding:3px 8px;border-radius:4px;letter-spacing:.5px;font-weight:500}
+.hdr h1{font-size:15px;font-weight:500}
+.hdr-r{display:flex;align-items:center;gap:16px}
+.score-pill{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);background:rgba(79,158,255,.1);border:1px solid rgba(79,158,255,.2);padding:4px 12px;border-radius:20px}
+.logout-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color .2s}
+.logout-link:hover{color:var(--red)}
+.prog-wrap{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.prog-lbl{font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase}
+.prog-bar{width:160px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:3px;background:linear-gradient(90deg,var(--accent2),var(--green));border-radius:2px;transition:width .4s ease}
+
+/* NAV */
+.nav-wrap{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 24px;position:sticky;top:57px;z-index:99;overflow-x:auto}
+.nav{display:flex;gap:5px;flex-wrap:wrap}
+.nb{width:30px;height:30px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;font-size:10px;font-weight:500;color:var(--text2);font-family:'IBM Plex Mono',monospace;transition:all .15s}
+.nb:hover{border-color:var(--accent);color:var(--accent)}
+.nb.ok{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+.nb.ng{background:var(--red-bg);border-color:var(--red-bd);color:var(--red)}
+
+/* CONTAINER */
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 80px}
+
+/* CARD */
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
+.qcard:hover{border-color:var(--border2)}
+.qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.qnum{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase}
+.qtag{font-size:10px;color:var(--purple);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace}
+.qtext{font-size:15px;color:var(--text);margin-bottom:6px;line-height:1.8;user-select:text}
+
+/* CHOICES */
+.choices{display:flex;flex-direction:column;gap:8px}
+.cbtn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 15px;text-align:left;cursor:pointer;font-size:14px;font-family:'IBM Plex Sans Thai',sans-serif;color:var(--text2);transition:all .15s;display:flex;align-items:flex-start;gap:11px;line-height:1.7;width:100%}
+.cbtn:hover:not(:disabled){background:rgba(255,255,255,.04);border-color:var(--border2);color:var(--text)}
+.clbl{width:26px;height:26px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:1px;font-family:'IBM Plex Mono',monospace;color:var(--text3);transition:all .15s}
+.ctxt{flex:1;user-select:text}
+.cbtn.sel{background:var(--sel-bg);border-color:var(--sel-bd);color:var(--text)}
+.cbtn.sel .clbl{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.cbtn.correct{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+.cbtn.correct .clbl{background:var(--green);border-color:var(--green);color:var(--bg)}
+.cbtn.wrong{background:var(--red-bg);border-color:var(--red-bd);color:var(--red)}
+.cbtn.wrong .clbl{background:var(--red);border-color:var(--red);color:#fff}
+.cbtn.dimmed{opacity:.4}
+.cbtn:disabled{cursor:default}
+
+/* BANNER & EXP */
+.banner{margin-top:12px;padding:9px 14px;border-radius:7px;font-size:13px;font-weight:500;display:none;font-family:'IBM Plex Mono',monospace}
+.banner.show{display:block}
+.banner.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+.banner.ng{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
+.exp{display:none;margin-top:10px;border:1px solid var(--yellow-bd);border-radius:8px;overflow:hidden}
+.exp.show{display:block}
+.exp-title{background:var(--yellow-bg);padding:7px 14px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);border-bottom:1px solid var(--yellow-bd);font-family:'IBM Plex Mono',monospace}
+.exp-body{padding:12px 14px;font-size:13.5px;color:#d4a84b;line-height:1.75}
+
+/* SUBMIT BTN */
+.sbtn{margin-top:12px;background:var(--accent2);color:#fff;border:none;padding:12px 26px;border-radius:7px;font-size:13.5px;font-family:'IBM Plex Sans Thai',sans-serif;font-weight:500;cursor:pointer;transition:all .15s;display:none;width:100%}
+.sbtn:hover{background:#1a6cd4;transform:translateY(-1px)}
+.sbtn.show{display:block}
+
+/* SUMMARY */
+.summary{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:48px 32px;text-align:center;display:none;margin-top:24px}
+.summary.show{display:block}
+.sc-big{font-family:'IBM Plex Mono',monospace;font-size:72px;font-weight:600;color:var(--accent);line-height:1;margin-bottom:8px}
+.sc-sub{font-size:17px;color:var(--text2);margin-bottom:6px}
+.sc-pct{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text3);margin-bottom:28px}
+.sc-stats{display:flex;justify-content:center;gap:32px;margin-bottom:28px}
+.sc-stat{text-align:center}
+.sc-stat-n{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600}
+.sc-stat-l{font-size:11px;color:var(--text3);margin-top:2px}
+.sum-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.restart-btn{background:transparent;color:var(--accent);border:1px solid rgba(79,158,255,.3);padding:10px 32px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;font-weight:500;transition:all .15s}
+.restart-btn:hover{background:rgba(79,158,255,.1);border-color:var(--accent)}
+
+@media(max-width:600px){.prog-bar{width:80px}.hdr h1{font-size:13px}.sc-big{font-size:52px}.qcard{padding:16px}.login-card{padding:30px 20px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen active" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <h1>Magnislect</h1>
+      <p>ทำโจทย์ให้พอ เข้าใจให้จริง<br>ฝึกฝน อดทน ยังไงก็ผ่าน</p>
+    </div>
+    <div class="message" id="loginMsg"></div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">อีเมลของคุณ</label>
+        <input type="email" id="email" placeholder="example@gmail.com" required>
+      </div>
+      <div id="codeSection" class="hidden">
+        <div class="form-group">
+          <label for="code">รหัสยืนยัน</label>
+          <input type="text" id="code" placeholder="ใส่รหัสที่ได้รับ" maxlength="8">
+        </div>
+      </div>
+      <button type="button" id="getCodeBtn" class="btn btn-primary">ขอรหัสยืนยัน</button>
+      <div id="verifySection" class="hidden">
+        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+        <button type="button" id="changeEmailBtn" class="btn btn-secondary">เปลี่ยนอีเมล</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quizScreen" style="display:none">
+  <div class="hdr">
+    <div class="hdr-l">
+      <span class="logo">Magnislect</span>
+      <h1 id="examTitle">Mock 6 — ข้อสอบ</h1>
+    </div>
+    <div class="hdr-r">
+      <div class="score-pill" id="scoreDisplay">0 / 0</div>
+      <div class="prog-wrap">
+        <span class="prog-lbl">Progress</span>
+        <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+      <span class="logout-link" onclick="logout()">ออก</span>
+    </div>
+  </div>
+
+  <div class="nav-wrap"><div class="nav" id="navBtns"></div></div>
+  <div class="wrap">
+    <div id="quizArea"></div>
+    <div class="summary" id="summary">
+      <div class="sc-big" id="finalScore">0</div>
+      <div class="sc-sub" id="finalSub">ผลการสอบ</div>
+      <div class="sc-pct" id="finalPct">0% | เกณฑ์ผ่าน 75%</div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n" id="statOk" style="color:var(--green)">0</div><div class="sc-stat-l">ถูก</div></div>
+        <div class="sc-stat"><div class="sc-stat-n" id="statNg" style="color:var(--red)">0</div><div class="sc-stat-l">ผิด</div></div>
+      </div>
+      <div style="background:var(--yellow-bg);border:1px solid var(--yellow-bd);border-radius:8px;padding:20px;margin-bottom:28px;text-align:left">
+        <h4 style="color:var(--yellow);margin-bottom:10px">📊 หัวข้อที่ต้องเสริม:</h4>
+        <ul id="weakTopics" style="list-style:none;color:#d4a84b;font-size:13px;line-height:1.7"></ul>
+      </div>
+      <div class="sum-btns">
+        <button class="restart-btn" onclick="restart()">↺ เริ่มใหม่</button>
+        <button class="restart-btn" style="color:var(--red);border-color:rgba(248,113,113,.3)" onclick="logout()">ออกจากระบบ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─ STORAGE ─
+const STORAGE_PREFIX = 'magnislect_';
+let currentUser = null;
+let verificationCode = null;
+let questions = [];
+let currentQuestionIndex = 0;
+let answered = {};
+let selected = {};
+let score = 0;
+
+function saveProgress(){
+  if(!currentUser) return;
+  const key = STORAGE_PREFIX + currentUser.email;
+  localStorage.setItem(key+'_answered', JSON.stringify(answered));
+  localStorage.setItem(key+'_selected', JSON.stringify(selected));
+  localStorage.setItem(key+'_index', currentQuestionIndex.toString());
+  localStorage.setItem(key+'_score', score.toString());
+}
+
+function loadProgress(){
+  if(!currentUser) return;
+  const key = STORAGE_PREFIX + currentUser.email;
+  const ans = localStorage.getItem(key+'_answered');
+  const sel = localStorage.getItem(key+'_selected');
+  const idx = localStorage.getItem(key+'_index');
+  const sc = localStorage.getItem(key+'_score');
+  if(ans) answered = JSON.parse(ans);
+  if(sel) selected = JSON.parse(sel);
+  if(idx) currentQuestionIndex = parseInt(idx);
+  if(sc) score = parseInt(sc);
+}
+
+function generateCode(){
+  return Math.random().toString(36).substring(2,8).toUpperCase().slice(0,6);
+}
+
+async function loadQuestions(){
+  try{
+    const sheetId = '1-YcLihFwFp0icUUp-lpXAXMxocD9r8zGJF6fxxwHmCs';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+    const res = await fetch(url);
+    const text = await res.text();
+    questions = [];
+
+    // Parse CSV properly - handles quoted fields with newlines
+    const rows = [];
+    let currentRow = [];
+    let currentField = '';
+    let inQuotes = false;
+
+    for(let i = 0; i < text.length; i++){
+      const char = text[i];
+      const nextChar = text[i+1];
+
+      if(char === '"'){
+        if(inQuotes && nextChar === '"'){
+          currentField += '"';
+          i++;
+        }else{
+          inQuotes = !inQuotes;
+        }
+      }else if(char === ',' && !inQuotes){
+        currentRow.push(currentField.trim());
+        currentField = '';
+      }else if((char === '\n' || char === '\r') && !inQuotes){
+        if(currentField.trim()) currentRow.push(currentField.trim());
+        if(currentRow.length > 0) rows.push(currentRow);
+        currentRow = [];
+        currentField = '';
+      }else{
+        currentField += char;
+      }
+    }
+
+    if(currentField.trim()) currentRow.push(currentField.trim());
+    if(currentRow.length > 0) rows.push(currentRow);
+
+    // Skip header row, process data rows
+    for(let i = 1; i < rows.length; i++){
+      try{
+        const parts = rows[i];
+        if(parts.length < 8) continue;
+
+        const clean = (s) => s.replace(/^"|"$/g, '');
+
+        const q = {
+          q: clean(parts[0]),
+          c: [clean(parts[1]), clean(parts[2]), clean(parts[3]), clean(parts[4])],
+          a: parseInt(clean(parts[5])) - 1,
+          exp: clean(parts[6]),
+          tag: clean(parts[7]) || 'ทั่วไป'
+        };
+
+        if(isNaN(q.a) || q.a < 0 || q.a > 3) continue;
+        questions.push(q);
+      }catch(e){
+        console.error('Parse error:', e);
+      }
+    }
+
+    return questions.length > 0;
+  }catch(e){
+    console.error('Load error:', e);
+    return false;
+  }
+}
+
+// ─ LOGIN ─
+document.getElementById('getCodeBtn').addEventListener('click', function(){
+  const email = document.getElementById('email').value.trim();
+  const msg = document.getElementById('loginMsg');
+
+  if(!email){
+    msg.className = 'message error show';
+    msg.textContent = 'กรุณาใส่อีเมล';
+    return;
+  }
+
+  verificationCode = generateCode();
+  msg.className = 'message info show';
+  msg.innerHTML = `✅ รหัสยืนยันของคุณ: <strong>${verificationCode}</strong><br><small>(สำหรับการทดสอบ MVP)</small>`;
+  document.getElementById('codeSection').classList.remove('hidden');
+  document.getElementById('getCodeBtn').style.display = 'none';
+  document.getElementById('verifySection').classList.remove('hidden');
+  document.getElementById('code').focus();
+});
+
+document.getElementById('changeEmailBtn').addEventListener('click', function(){
+  document.getElementById('email').value = '';
+  document.getElementById('code').value = '';
+  document.getElementById('loginMsg').innerHTML = '';
+  document.getElementById('codeSection').classList.add('hidden');
+  document.getElementById('verifySection').classList.add('hidden');
+  document.getElementById('getCodeBtn').style.display = 'block';
+  verificationCode = null;
+});
+
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const code = document.getElementById('code').value.trim().toUpperCase();
+  const msg = document.getElementById('loginMsg');
+
+  if(!code){
+    msg.className = 'message error show';
+    msg.textContent = 'กรุณาใส่รหัส';
+    return;
+  }
+
+  if(code !== verificationCode){
+    msg.className = 'message error show';
+    msg.textContent = 'รหัสไม่ถูกต้อง';
+    return;
+  }
+
+  msg.className = 'message info show';
+  msg.textContent = 'กำลังโหลด...';
+
+  if(questions.length === 0){
+    const ok = await loadQuestions();
+    if(!ok){
+      msg.className = 'message error show';
+      msg.textContent = 'ไม่สามารถโหลดข้อสอบได้ โปรดลองใหม่';
+      return;
+    }
+  }
+
+  currentUser = {email, loginTime: Date.now()};
+  localStorage.setItem(STORAGE_PREFIX+'user', JSON.stringify(currentUser));
+  loadProgress();
+  showQuizScreen();
+});
+
+function showQuizScreen(){
+  document.getElementById('loginScreen').classList.remove('active');
+  document.getElementById('quizScreen').style.display = 'block';
+  document.getElementById('examTitle').textContent = 'Mock 6 — ข้อสอบ ' + questions.length + ' ข้อ';
+  buildNav();
+  displayQuestion();
+}
+
+function displayQuestion(){
+  if(currentQuestionIndex >= questions.length){
+    showResults();
+    return;
+  }
+
+  const q = questions[currentQuestionIndex];
+  const isAnswered = answered[currentQuestionIndex] !== undefined;
+
+  document.getElementById('scoreDisplay').textContent = score + ' / ' + Object.keys(answered).length;
+  document.getElementById('progFill').style.width = ((currentQuestionIndex + 1) / questions.length * 100) + '%';
+
+  const area = document.getElementById('quizArea');
+  area.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">ข้อที่ ${currentQuestionIndex + 1}/${questions.length}</span><span class="qtag">${q.tag}</span>`;
+  card.appendChild(meta);
+
+  const qtext = document.createElement('div');
+  qtext.className = 'qtext';
+  qtext.innerHTML = q.q.replace(/\n/g, '<br>');
+  card.appendChild(qtext);
+
+  const choices = document.createElement('div');
+  choices.className = 'choices';
+
+  q.c.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cbtn';
+    if(selected[currentQuestionIndex] === i) btn.classList.add('sel');
+    if(isAnswered && i === q.a) btn.classList.add('correct');
+    if(isAnswered && selected[currentQuestionIndex] === i && i !== q.a) btn.classList.add('wrong');
+    if(isAnswered) btn.classList.add('dimmed');
+    btn.disabled = isAnswered;
+    btn.innerHTML = `<span class="clbl">${i + 1}</span><span class="ctxt">${opt.replace(/\n/g, '<br>')}</span>`;
+    btn.onclick = () => selectChoice(i);
+    choices.appendChild(btn);
+  });
+  card.appendChild(choices);
+
+  const banner = document.createElement('div');
+  banner.className = 'banner';
+  if(isAnswered){
+    const ok = selected[currentQuestionIndex] === q.a;
+    banner.className = 'banner show ' + (ok ? 'ok' : 'ng');
+    banner.textContent = ok ? '✓ ถูกต้อง!' : '✗ ไม่ถูกต้อง — เฉลยคือข้อ ' + (q.a + 1);
+  }
+  card.appendChild(banner);
+
+  const exp = document.createElement('div');
+  exp.className = 'exp';
+  if(isAnswered){
+    exp.classList.add('show');
+    exp.innerHTML = `<div class="exp-title">💡 คำอธิบาย</div><div class="exp-body">${q.exp.replace(/\n/g, '<br>')}</div>`;
+  }
+  card.appendChild(exp);
+
+  const sbtn = document.createElement('button');
+  sbtn.type = 'button';
+  sbtn.className = 'sbtn';
+  if(selected[currentQuestionIndex] !== undefined && !isAnswered) sbtn.classList.add('show');
+  sbtn.textContent = 'ยืนยันคำตอบ';
+  sbtn.onclick = () => submitAnswer();
+  card.appendChild(sbtn);
+
+  area.appendChild(card);
+  card.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+function selectChoice(choiceIndex){
+  if(answered[currentQuestionIndex] !== undefined) return;
+  selected[currentQuestionIndex] = choiceIndex;
+
+  const btns = document.querySelectorAll('.cbtn');
+  btns.forEach((btn, i) => {
+    if(i === choiceIndex) btn.classList.add('sel');
+    else btn.classList.remove('sel');
+  });
+
+  const sbtn = document.querySelector('.sbtn');
+  if(sbtn) sbtn.classList.add('show');
+}
+
+function submitAnswer(){
+  if(answered[currentQuestionIndex] !== undefined) return;
+  if(selected[currentQuestionIndex] === undefined) return;
+
+  const q = questions[currentQuestionIndex];
+  const choiceIndex = selected[currentQuestionIndex];
+  const isCorrect = choiceIndex === q.a;
+
+  answered[currentQuestionIndex] = isCorrect;
+  if(isCorrect) score++;
+  saveProgress();
+
+  const btns = document.querySelectorAll('.cbtn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    btn.className = 'cbtn dimmed';
+    if(i === q.a) btn.className = 'cbtn correct dimmed';
+    if(i === choiceIndex && !isCorrect) btn.className = 'cbtn wrong dimmed';
+  });
+
+  const banner = document.querySelector('.banner');
+  if(banner){
+    banner.className = 'banner show ' + (isCorrect ? 'ok' : 'ng');
+    banner.textContent = isCorrect ? '✓ ถูกต้อง!' : '✗ ไม่ถูกต้อง — เฉลยคือข้อ ' + (q.a + 1);
+  }
+
+  const exp = document.querySelector('.exp');
+  if(exp){
+    exp.classList.add('show');
+    exp.innerHTML = `<div class="exp-title">💡 คำอธิบาย</div><div class="exp-body">${q.exp.replace(/\n/g, '<br>')}</div>`;
+  }
+
+  const sbtn = document.querySelector('.sbtn');
+  if(sbtn) sbtn.classList.remove('show');
+
+  buildNav();
+
+  setTimeout(() => {
+    currentQuestionIndex++;
+    if(currentQuestionIndex >= questions.length){
+      showResults();
+    }else{
+      displayQuestion();
+    }
+  }, 1000);
+}
+
+function buildNav(){
+  const nav = document.getElementById('navBtns');
+  nav.innerHTML = '';
+  questions.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nb';
+    if(answered[i] !== undefined){
+      btn.classList.add(answered[i] ? 'ok' : 'ng');
+    }
+    btn.textContent = i + 1;
+    btn.title = `ข้อ ${i + 1}`;
+    btn.onclick = () => {
+      if(answered[currentQuestionIndex] === undefined) return;
+      currentQuestionIndex = i;
+      displayQuestion();
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function showResults(){
+  let correct = 0;
+  let wrongByTopic = {};
+
+  questions.forEach((q, i) => {
+    if(answered[i] === true){
+      correct++;
+    }else if(answered[i] === false){
+      wrongByTopic[q.tag] = (wrongByTopic[q.tag] || 0) + 1;
+    }
+  });
+
+  const pct = Math.round((correct / questions.length) * 100);
+  const pass = pct >= 75;
+
+  document.getElementById('finalScore').textContent = correct + '/' + questions.length;
+  document.getElementById('finalSub').textContent = pass ? '🎉 ผ่านเกณฑ์!' : '❌ ยังไม่ผ่าน ลองใหม่ได้';
+  document.getElementById('finalSub').style.color = pass ? 'var(--green)' : 'var(--red)';
+  document.getElementById('finalPct').textContent = pct + '%  |  เกณฑ์ผ่าน 75%';
+  document.getElementById('statOk').textContent = correct;
+  document.getElementById('statNg').textContent = questions.length - correct;
+
+  const topicList = document.getElementById('weakTopics');
+  topicList.innerHTML = '';
+  const sorted = Object.entries(wrongByTopic).sort((a, b) => b[1] - a[1]);
+
+  if(sorted.length === 0){
+    topicList.innerHTML = '<li>🎉 ทำได้ทุกข้อ ยอดเยี่ยม!</li>';
+  }else{
+    sorted.forEach(([topic, count]) => {
+      const pct_t = Math.round((count / questions.length) * 100);
+      topicList.innerHTML += `<li>${topic}: ผิด ${count} ข้อ (${pct_t}%)</li>`;
+    });
+  }
+
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.add('show');
+}
+
+function restart(){
+  currentQuestionIndex = 0;
+  answered = {};
+  selected = {};
+  score = 0;
+  saveProgress();
+  document.getElementById('summary').classList.remove('show');
+  displayQuestion();
+}
+
+function logout(){
+  currentUser = null;
+  verificationCode = null;
+  localStorage.removeItem(STORAGE_PREFIX+'user');
+  document.getElementById('loginScreen').classList.add('active');
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('email').value = '';
+  document.getElementById('code').value = '';
+  document.getElementById('loginMsg').innerHTML = '';
+  document.getElementById('codeSection').classList.add('hidden');
+  document.getElementById('verifySection').classList.add('hidden');
+  document.getElementById('getCodeBtn').style.display = 'block';
+  questions = [];
+  currentQuestionIndex = 0;
+  answered = {};
+  selected = {};
+  score = 0;
+}
+
+window.addEventListener('load', async function(){
+  const saved = localStorage.getItem(STORAGE_PREFIX+'user');
+  if(saved){
+    currentUser = JSON.parse(saved);
+    if(questions.length === 0){
+      const ok = await loadQuestions();
+      if(ok){
+        loadProgress();
+        showQuizScreen();
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
