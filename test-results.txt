@@ -1,0 +1,42 @@
+MagniSelect Test Report
+============================================================
+URL: https://ms-mockupexam-puarxm166-kawins-projects-8ff2ed09.vercel.app
+Date: 2026-04-22T00:31:04.383Z
+
+❌ FAIL | Test 1: Login Page | Login elements not found
+❌ FAIL | Test 2: Get Code | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#getCodeBtn')[22m
+
+❌ FAIL | Test 3: Code Verification | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+❌ FAIL | Test 4: No visible \n | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+❌ FAIL | Test 5: Answer Selection | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+❌ FAIL | Test 6: Answer Submission | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+❌ FAIL | Test 7: Progress Persistence | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+❌ FAIL | Test 8: Results Page | page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('button:has-text("ขอรหัสยืนยัน")')[22m
+
+
+SUMMARY:
+✅ Passed: 0
+❌ Failed: 8
+📊 Total: 8
+Success Rate: 0%
+
+Screenshots saved in: ./test-screenshots/

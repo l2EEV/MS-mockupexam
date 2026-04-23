@@ -232,69 +232,14 @@ function generateCode(){
 
 async function loadQuestions(){
   try{
-    const sheetId = '1-YcLihFwFp0icUUp-lpXAXMxocD9r8zGJF6fxxwHmCs';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-    const res = await fetch(url);
-    const text = await res.text();
-    questions = [];
-
-    // Parse CSV properly - handles quoted fields with newlines
-    const rows = [];
-    let currentRow = [];
-    let currentField = '';
-    let inQuotes = false;
-
-    for(let i = 0; i < text.length; i++){
-      const char = text[i];
-      const nextChar = text[i+1];
-
-      if(char === '"'){
-        if(inQuotes && nextChar === '"'){
-          currentField += '"';
-          i++;
-        }else{
-          inQuotes = !inQuotes;
-        }
-      }else if(char === ',' && !inQuotes){
-        currentRow.push(currentField.trim());
-        currentField = '';
-      }else if((char === '\n' || char === '\r') && !inQuotes){
-        if(currentField.trim()) currentRow.push(currentField.trim());
-        if(currentRow.length > 0) rows.push(currentRow);
-        currentRow = [];
-        currentField = '';
-      }else{
-        currentField += char;
-      }
+    // Load embedded questions (defined in embedded-questions.js)
+    if(typeof EMBEDDED_QUESTIONS !== 'undefined' && EMBEDDED_QUESTIONS.length > 0){
+      questions = EMBEDDED_QUESTIONS;
+      return true;
+    }else{
+      console.error('Embedded questions not found');
+      return false;
     }
-
-    if(currentField.trim()) currentRow.push(currentField.trim());
-    if(currentRow.length > 0) rows.push(currentRow);
-
-    // Skip header row, process data rows
-    for(let i = 1; i < rows.length; i++){
-      try{
-        const parts = rows[i];
-        if(parts.length < 8) continue;
-
-        const clean = (s) => s.replace(/^"|"$/g, '');
-
-        const q = {
-          q: clean(parts[0]),
-          c: [clean(parts[1]), clean(parts[2]), clean(parts[3]), clean(parts[4])],
-          a: parseInt(clean(parts[5])) - 1,
-          exp: clean(parts[6]),
-          tag: clean(parts[7]) || 'ทั่วไป'
-        };
-
-        if(isNaN(q.a) || q.a < 0 || q.a > 3) continue;
-        questions.push(q);
-      }catch(e){
-        console.error('Parse error:', e);
-      }
-    }
-
-    return questions.length > 0;
   }catch(e){
     console.error('Load error:', e);
     return false;
@@ -614,5 +559,6 @@ window.addEventListener('load', async function(){
   }
 });
 </script>
+<script src="embedded-questions.js"></script>
 </body>
 </html>
